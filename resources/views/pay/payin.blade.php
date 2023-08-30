@@ -47,7 +47,7 @@ function Payin_with_redirection($transaction_id,$amount){
 						},
 						"store": {
 						  "name": "Rencontre B2B",
-						  "website_url": "http://localhost/erencci"
+						  "website_url": "http://localhost:8000"
 						},
 						"actions": {
 						  "cancel_url": "http://localhost:8000/transaction",

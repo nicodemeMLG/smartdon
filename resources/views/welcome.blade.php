@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Smart Don</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -52,7 +52,7 @@
 
                 <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                     <div class="ml-4 text-center  text-sm text-gray-500 dark:text-gray-400 sm:text-center sm:ml-0" style="width: 100%">
-                        Projet  réalisé par Ezeckiel et Nicodème MILLOGO --- 2022-2023
+                        Projet  réalisé par Ezeckiel BASSOLE et Nicodème MILLOGO --- 2022-2023
                     </div>
                 </div>
             </div>

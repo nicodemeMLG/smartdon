@@ -19,10 +19,12 @@ class TransactionController extends Controller
     {
         $id=auth()->user()->id;
         $transactions= Transaction::orderBy('id','desc')->where('user_id','=',$id)->paginate(10);
+        $sum = Transaction::where('user_id','=',$id)->sum('montant');
         //dd($transactions);
 
         return view('dashboard',[
             'transactions'=>$transactions,
+            'total'=>$sum,
         ]);
     }
     /**
@@ -51,24 +53,9 @@ class TransactionController extends Controller
         //paiment avec ligidicash
         // Update the path below to your autoload.php,
         // see https://getcomposer.org/doc/01-basic-usage.md
-        $numero=auth()->user()->phone;
 
 
-        /*$sid    = "ACb7b63fd01388e30b27a7015488f3c784";
-        $token  = "1e95200f1cf872364667715b9feb7bbf";
-        $twilio = new Client($sid, $token);
-
-        $message = $twilio->messages
-        ->create("+22664838676", // to
-            array(
-            "from" => "+15739283828",
-            "body" => "Votre don de $montant a bien été réçu, merci pour votre générosité"
-            )
-        );
-
-        print($message->sid);*/
-
-        return view('pay.payin',[
+        return view('pay.payin', [
             'transaction_id'=> $transaction_id,
             'montant'=>$montant,
 
@@ -76,12 +63,7 @@ class TransactionController extends Controller
 
         //fin paiement
 
-        /*$transaction = auth()->user()->transactions()->create([
-            'numtrans'=>'11234556',
-            'montant'=>$request->montant,
-        ]);
 
-        return redirect()->route('dashboard');*/
     }
 
     public function status() {
@@ -167,11 +149,26 @@ class TransactionController extends Controller
                 //\App\Transaction::create($from_data);
 
                 \Session::flash('success','Paiement effectué avec succès !!!');
-                /*$transaction = auth()->user()->transactions()->create([
+                $transaction = auth()->user()->transactions()->create([
                     'numtrans'=>$transaction_id,
                     'montant'=>$montant,
-                ]);*/
+                ]);
 
+                $numero=auth()->user()->phone;
+
+                $sid    = getenv('TWILIO_ACCOUNT_SID');
+                $token  = getenv('TWILIO_AUTH_TOKEN');
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                ->create("+226$numero", // to
+                    array(
+                    "from" => getenv('TWILIO_PHONE_NUMBER'),
+                    "body" => "Votre don de $montant a bien été réçu, merci pour votre générosité"
+                    )
+                );
+
+                //print($message->sid);
 
                 return redirect()->route('dashboard');
                 //echo 'status='.$Payin->status;;
